@@ -1,0 +1,192 @@
+Legend:
+M    Memory ()
+R    Register
+U    Hardcoded data
+8/16 Bits
+FF   FF00+ shift
+C    Condition (""(None),"C","Z","NC","NZ")
+V    Vec ("00","08","10","18","20","28","30","38")
+
+control/br          6
+NOP                 1
+STOP                1
+HALT                1
+PREFIX CB           1
+DI                  1
+EI                  1
+
+x16/lsm             14
+LD  \/              6
+     R16  < U16     4
+     MU16 < R16     1
+     R16  < R16     1
+PUSH R16            4
+POP  R16            4
+
+x8/lsm              85
+LD  \/              85
+     MR16 < R8      9
+     MR16 < U8      1
+     MR16+ < R8     1
+     MR16- < R8     1
+     R8   < U8      7
+     R8   < MR16    9     
+     R8   < MR16+   1
+     R8   < MR16-   1
+     R8   < R8      49
+     MU16 < R8      1
+     R8   < MU16    1
+     FFU8 < R8      1
+     R8   < FFU8    1
+     FFC  < R8      1
+     R8   < FFC     1
+
+x16/alu             14
+INC  R16            4
+ADD \/              5
+     R16  < R16     4
+     R16  < U8      1
+DEC  R16            4
+LD   R16  < R16+U8  1
+
+x8/alu              92
+INC \/              8
+     R8             7
+     MR16           1
+DEC \/              8
+     R8             7
+     MR16           1
+DAA                 1
+SCF                 1
+CPL                 1
+CCF                 1
+ADD \/              9
+     R8   < R8      7
+     R8   < MR16    1
+     R8   < U8      1
+ADC \/              9
+     R8   < R8      7
+     R8   < MR16    1
+     R8   < U8      1
+SUB \/              9
+     R8   < R8      7
+     R8   < MR16    1
+     R8   < U8      1
+SBC \/              9
+     R8   < R8      7
+     R8   < MR16    1
+     R8   < U8      1
+AND \/              9
+     R8   < R8      7
+     R8   < MR16    1
+     R8   < U8      1
+XOR \/              9
+     R8   < R8      7
+     R8   < MR16    1
+     R8   < U8      1
+OR  \/              9
+     R8   < R8      7
+     R8   < MR16    1
+     R8   < U8      1
+CP  \/              9
+     R8   < R8      7
+     R8   < MR16    1
+     R8   < U8      1
+
+x8/rsb              4
+RLCA                1
+RRCA                1
+RLA                 1
+RRA                 1
+
+control/misc        30
+JR   C+U8           5
+RET  C              5
+JP  \/              6
+     C+U16          5
+     R16            1
+CALL C+U16          5
+RST  V              8
+RETI                1
+
+ALL             245
+NONE            256-245=11
+
+Operations: 
+(reusable)
+
+LD R16  < U16
+LD MR16 < R8
+LD R8   < U8
+LD R8   < MR16
+LD R8   < R8
+
+INC R16
+ADD HL  < R16
+DEC R16
+
+ADD A < R8
+ADC A < R8
+SUB A < R8
+SBC A < R8
+AND A < R8
+XOR A < R8
+OR  A < R8
+CP  A < R8
+
+JR C+U8
+RET C
+JP C+U16
+CALL C+U16
+RST V
+
+(single-use)
+NOP
+STOP
+HALT
+PREFIX CB
+DI
+EI
+
+LD MU16 < SP
+LD SP   < HL
+
+LD MHL  < U8
+LD MHL+ < A
+LD MHL- < A
+LD A    < MHL+
+LD A    < MHL-
+LD MU16 < A
+LD A    < MU16
+LD FFU8 < A
+LD A    < FFU8
+LD FFC  < A
+LD A    < FFC
+
+ADD SP  < U8
+LD  HL  < SP+U8
+
+ADD A < MR16
+ADD A < U8
+ADC A < MR16
+ADC A < U8
+SUB A < MR16
+SUB A < U8
+SBC A < MR16
+SBC A < U8
+AND A < MR16
+AND A < U8
+XOR A < MR16
+XOR A < U8
+OR A < MR16
+OR A < U8
+CP A < MR16
+CP A < U8
+
+RLCA
+RRCA
+RLA
+RRA
+
+JP R16
+RETI
